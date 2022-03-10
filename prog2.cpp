@@ -9,7 +9,7 @@ using namespace std;
 const int n=3;
 
 // Thread number in FIFO.
-int number[n];
+vector<int> number;
 
 // Thread FIFO.
 vector<bool> choosing;
@@ -21,7 +21,7 @@ void enter_region (int thread)
   choosing[thread]=true;
   
   // Getting max thread number in FIFO.
-  number[thread] =int(*max_element(choosing.begin(),choosing.end()))+1;//(choosing,[](bool a, bool b){return a<b;}) + 1;
+  number[thread] =*max_element(number.begin(),number.end())+1;
   choosing[thread]=false;
   
   // WHAITING.
@@ -95,7 +95,11 @@ void *thread3(void *dummy)
 int main() 
 {
   //for (int i=0;i<n;i++) choosing[i]=false;
-  for (int i=0;i<n;i++) choosing.push_back(false);
+  for (int i=0;i<n;i++) {
+    choosing.push_back(false);
+    number.push_back(0);
+  }
+  
   pthread_t th2id, th3id;
   int result;
   
